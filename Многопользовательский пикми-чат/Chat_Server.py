@@ -8,8 +8,12 @@ clients = {}
 rooms = {}
 client_rooms = {}
 
+lock = threading.Lock()
+
 def remove_client_from_room(conn):
-    room_name = client_rooms.get(conn)
+    romm_name = None
+    with lock:
+        room_name = client_rooms.get(conn)
     if room_name and room_name in rooms:
         if conn in rooms[room_name]:
             rooms[room_name].remove(conn)
@@ -30,13 +34,20 @@ def send_message(conn, message):
 
 
 def broadcast_message(sender_conn, room_name, message, include_sender=False):
+    participants = []
+    sender_name = "Неизвестный"
+    with lock:
     if room_name in rooms:
-        sender_name = clients.get(sender_conn, "Неизвестный")
-        full_message = f"[{room_name}] {sender_name}: {message}"
+        participants = list(rooms[room_name])
+    sender_name = clients.get(sender_conn, "Неизвестный")
 
-        for conn in rooms[room_name]:
-            if conn != sender_conn or include_sender:
-                send_message(conn, full_message)
+    if not participants:
+        return
+    full_message = f"[{room_name}] {sender_name}: {message}"
+
+    for conn in participants:
+        if conn != sender_conn or include_sender:
+            send_message(conn, full_message)
 
 def handle_client(conn, addr):
     print(f"[НОВОЕ ПОДКЛЮЧЕНИЕ] {addr}")
@@ -90,11 +101,15 @@ def handle_client(conn, addr):
 
             elif data.startswith("/list"):
                 msg = "Доступные комнаты:\n"
-                if not rooms:
+                room_info = {}
+                with lock:
+                    for room, participants in rooms.items():
+                        names = [clients.get(c, "Неизвестный") for c in participants]
+                        room_info[room] = (len(names), names)
+                if not room_info:
                     msg += "Нет активных комнат."
                 else:
-                    for room, participants in rooms.items():
-                        names = [clients[c] for c in participants if c in clients]
+                    for room, (count, names) in room_info.items():
                         msg += f" {room} ({len(names)}): {', '.join(names)}\n"
                 send_message(conn, msg)
 
