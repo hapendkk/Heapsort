@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>pop it!</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+        }
+
+        .balloon-link {
+            line-height: 0;
+            transition: transform 0.2s;
+            display: block;
+        }
+
+        .balloon-link:hover {
+            transform: scale(1.05);
+            cursor: pointer;
+        }
+
+        .balloon-image {
+            width: 150px;
+            height: 150px;
+
+            border-radius: 0;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <h1>Pop the baloon!</h1>
+
+    <a href="{{ url_for('surprise') }}" class="balloon-link" title="Click for a surprise!">
+        <img
+            src="https://i.pinimg.com/736x/f9/05/fc/f905fc56e6b28de5ceaad1b28ab13d60.jpg"
+            class="balloon-image"
+            alt="Pink Balloon"
+        >
+    </a>
+    <p>click on the balloon to see what happens</p>
+    <p><a href="{{ url_for('index') }}">main page</a></p>
+</body>
+</html>

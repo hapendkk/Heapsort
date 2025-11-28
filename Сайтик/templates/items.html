@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>users list</title>
+    <style>
+        .item-card {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1 style="color: pink">users list</h1>
+
+    {% if items %}
+        {% for x in items %}
+            <div class="item-card" style="background-color: pink;">
+                <h3>{{ x.title.capitalize() }}</h3>
+                <p>Description: {{ x.desc }}</p>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>List is empty.</p>
+    {% endif %}
+
+    <hr>
+    <p><a href="{{ url_for('index') }}">main page</a></p>
+</body>
+</html>

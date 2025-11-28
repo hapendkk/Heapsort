@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>user profile</title>
+    <style>
+    body {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        min-height: 100vh;
+        font-family: Arial, sans-serif;
+        text-align: center;
+    }
+
+    .content-container {
+        max-width: 800px;
+        width: 100%;
+        padding: 20px;
+        box-sizing: border-box;
+    }
+    </style>
+</head>
+<body>
+    <img src="https://th.bing.com/th/id/R.40bad7036d61352218825fea688671f9?rik=D8gG1xW1m4VCVw&riu=http%3a%2f%2f2.bp.blogspot.com%2f-4Yx156-VMJs%2fVELxmh0RuiI%2fAAAAAAAABBE%2fwCTmT0Z7YIE%2fs1600%2ftumblr_static_dean_winchester_preso.jpg&ehk=Mj8dywcIx6izrT3dwN2cB2vRJNRVMkEFmPVZPjbVnlI%3d&risl=&pid=ImgRaw&r=0"
+    style="
+        width: 150px;
+        height: 150px;
+        border-radius: 100%;
+        border: 3px solid pink;
+        object-fit: cover;
+"
+
+    >
+    <h1>user: {{ name.capitalize() }}</h1>
+    <hr>
+    <p>
+        <a href="{{ url_for('index') }}"><button>main page</button></a>
+        <a href="{{ url_for('search') }}"><button>back to search</button></a>
+    </p>
+</body>
+</html>
